@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import com.petshop.dto.AgendamentoDTO;
 import com.petshop.service.AgendamentoService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/agendamentos")
 public class AgendamentoController {
@@ -26,13 +28,13 @@ public class AgendamentoController {
     }
 
     @PostMapping
-    public AgendamentoDTO salvar(@RequestBody AgendamentoDTO agendamentoDTO) {
+    public AgendamentoDTO salvar(@Valid @RequestBody AgendamentoDTO agendamentoDTO) {
         return agendamentoService.salvar(agendamentoDTO);
     }
 
     @PutMapping("/{id}")
     public AgendamentoDTO atualizar(@PathVariable Long id,
-                                    @RequestBody AgendamentoDTO agendamentoDTO) {
+                                    @Valid @RequestBody AgendamentoDTO agendamentoDTO) {
 
         return agendamentoService.atualizar(id, agendamentoDTO);
     }

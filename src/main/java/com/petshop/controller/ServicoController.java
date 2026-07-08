@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import com.petshop.dto.ServicoDTO;
 import com.petshop.service.ServicoService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/servicos")
 public class ServicoController {
@@ -26,13 +28,13 @@ public class ServicoController {
     }
 
     @PostMapping
-    public ServicoDTO salvar(@RequestBody ServicoDTO servicoDTO) {
+    public ServicoDTO salvar(@Valid @RequestBody ServicoDTO servicoDTO) {
         return servicoService.salvar(servicoDTO);
     }
 
     @PutMapping("/{id}")
     public ServicoDTO atualizar(@PathVariable Long id,
-                                @RequestBody ServicoDTO servicoDTO) {
+                                @Valid @RequestBody ServicoDTO servicoDTO) {
 
         return servicoService.atualizar(id, servicoDTO);
     }

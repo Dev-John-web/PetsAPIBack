@@ -1,13 +1,21 @@
 package com.petshop.dto;
 
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public class AgendamentoDTO {
 
     private Long id;
+    
+    @NotNull(message = "A data é obrigatória.")
+    @Future(message = "A data deve ser futura.")
     private LocalDateTime dataHora;
 
+    @NotNull(message = "O pet é obrigatório.")
     private Long petId;
+
+    @NotNull(message = "O serviço é obrigatório.")
     private Long servicoId;
 
     public AgendamentoDTO() {

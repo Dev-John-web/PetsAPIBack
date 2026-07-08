@@ -1,12 +1,22 @@
 package com.petshop.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class PetDTO {
 
     private Long id;
+    
+    @NotBlank(message = "O nome é obrigatório.")
     private String nome;
+
+    @NotBlank(message = "O tipo é obrigatório.")
     private String tipo;
+
+    @NotBlank(message = "A raça é obrigatória.")
     private String raca;
 
+    @NotNull(message = "O cliente é obrigatório.")
     private Long clienteId;
 
     public PetDTO() {
