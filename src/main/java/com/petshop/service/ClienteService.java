@@ -1,11 +1,12 @@
 package com.petshop.service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.petshop.dto.ClienteDTO;
 import com.petshop.entities.Cliente;
 import com.petshop.repository.ClienteRepository;
 
@@ -15,23 +16,77 @@ public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    public List<Cliente> listarTodos() {
-        return clienteRepository.findAll();
+    // Entity -> DTO
+    private ClienteDTO converterDTO(Cliente cliente) {
+        return new ClienteDTO(
+                cliente.getId(),
+                cliente.getNome(),
+                cliente.getTelefone(),
+                cliente.getEmail()
+        );
     }
 
-    public Optional<Cliente> buscarPorId(Long id) {
-        return clienteRepository.findById(id);
+    // DTO -> Entity
+    private Cliente converterEntity(ClienteDTO dto) {
+        Cliente cliente = new Cliente();
+
+        cliente.setId(dto.getId());
+        cliente.setNome(dto.getNome());
+        cliente.setTelefone(dto.getTelefone());
+        cliente.setEmail(dto.getEmail());
+
+        return cliente;
     }
 
-    public Cliente salvar(Cliente cliente) {
-        return clienteRepository.save(cliente);
+    // Listar todos
+    public List<ClienteDTO> listarTodos() {
+
+        List<Cliente> clientes = clienteRepository.findAll();
+        List<ClienteDTO> clientesDTO = new ArrayList<>();
+
+        for (Cliente cliente : clientes) {
+            clientesDTO.add(converterDTO(cliente));
+        }
+
+        return clientesDTO;
     }
 
-    public Cliente atualizar(Cliente cliente) {
-        return clienteRepository.save(cliente);
+    // Buscar por ID
+    public ClienteDTO buscarPorId(Long id) {
+
+        Cliente cliente = clienteRepository.findById(id).orElse(null);
+
+        if (cliente == null) {
+            return null;
+        }
+
+        return converterDTO(cliente);
     }
 
+    // Salvar
+    public ClienteDTO salvar(ClienteDTO dto) {
+
+        Cliente cliente = converterEntity(dto);
+
+        cliente = clienteRepository.save(cliente);
+
+        return converterDTO(cliente);
+    }
+
+    // Atualizar
+    public ClienteDTO atualizar(Long id, ClienteDTO dto) {
+
+        Cliente cliente = converterEntity(dto);
+        cliente.setId(id);
+
+        cliente = clienteRepository.save(cliente);
+
+        return converterDTO(cliente);
+    }
+
+    // Deletar
     public void deletar(Long id) {
         clienteRepository.deleteById(id);
     }
+
 }

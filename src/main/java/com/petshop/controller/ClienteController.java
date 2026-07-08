@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.petshop.entities.Cliente;
+import com.petshop.dto.ClienteDTO;
 import com.petshop.service.ClienteService;
 
 @RestController
@@ -16,25 +16,25 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @GetMapping
-    public List<Cliente> listarTodos() {
+    public List<ClienteDTO> listarTodos() {
         return clienteService.listarTodos();
     }
 
     @GetMapping("/{id}")
-    public Cliente buscarPorId(@PathVariable Long id) {
-        return clienteService.buscarPorId(id)
-                .orElse(null);
+    public ClienteDTO buscarPorId(@PathVariable Long id) {
+        return clienteService.buscarPorId(id);
     }
 
     @PostMapping
-    public Cliente salvar(@RequestBody Cliente cliente) {
-        return clienteService.salvar(cliente);
+    public ClienteDTO salvar(@RequestBody ClienteDTO clienteDTO) {
+        return clienteService.salvar(clienteDTO);
     }
 
     @PutMapping("/{id}")
-    public Cliente atualizar(@PathVariable Long id, @RequestBody Cliente cliente) {
-        cliente.setId(id);
-        return clienteService.atualizar(cliente);
+    public ClienteDTO atualizar(@PathVariable Long id,
+                                @RequestBody ClienteDTO clienteDTO) {
+
+        return clienteService.atualizar(id, clienteDTO);
     }
 
     @DeleteMapping("/{id}")

@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.petshop.entities.Servico;
+import com.petshop.dto.ServicoDTO;
 import com.petshop.service.ServicoService;
 
 @RestController
@@ -16,24 +16,25 @@ public class ServicoController {
     private ServicoService servicoService;
 
     @GetMapping
-    public List<Servico> listarTodos() {
+    public List<ServicoDTO> listarTodos() {
         return servicoService.listarTodos();
     }
 
     @GetMapping("/{id}")
-    public Servico buscarPorId(@PathVariable Long id) {
-        return servicoService.buscarPorId(id).orElse(null);
+    public ServicoDTO buscarPorId(@PathVariable Long id) {
+        return servicoService.buscarPorId(id);
     }
 
     @PostMapping
-    public Servico salvar(@RequestBody Servico servico) {
-        return servicoService.salvar(servico);
+    public ServicoDTO salvar(@RequestBody ServicoDTO servicoDTO) {
+        return servicoService.salvar(servicoDTO);
     }
 
     @PutMapping("/{id}")
-    public Servico atualizar(@PathVariable Long id, @RequestBody Servico servico) {
-        servico.setId(id);
-        return servicoService.atualizar(servico);
+    public ServicoDTO atualizar(@PathVariable Long id,
+                                @RequestBody ServicoDTO servicoDTO) {
+
+        return servicoService.atualizar(id, servicoDTO);
     }
 
     @DeleteMapping("/{id}")

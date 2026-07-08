@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.petshop.entities.Agendamento;
+import com.petshop.dto.AgendamentoDTO;
 import com.petshop.service.AgendamentoService;
 
 @RestController
@@ -16,24 +16,25 @@ public class AgendamentoController {
     private AgendamentoService agendamentoService;
 
     @GetMapping
-    public List<Agendamento> listarTodos() {
+    public List<AgendamentoDTO> listarTodos() {
         return agendamentoService.listarTodos();
     }
 
     @GetMapping("/{id}")
-    public Agendamento buscarPorId(@PathVariable Long id) {
-        return agendamentoService.buscarPorId(id).orElse(null);
+    public AgendamentoDTO buscarPorId(@PathVariable Long id) {
+        return agendamentoService.buscarPorId(id);
     }
 
     @PostMapping
-    public Agendamento salvar(@RequestBody Agendamento agendamento) {
-        return agendamentoService.salvar(agendamento);
+    public AgendamentoDTO salvar(@RequestBody AgendamentoDTO agendamentoDTO) {
+        return agendamentoService.salvar(agendamentoDTO);
     }
 
     @PutMapping("/{id}")
-    public Agendamento atualizar(@PathVariable Long id, @RequestBody Agendamento agendamento) {
-        agendamento.setId(id);
-        return agendamentoService.atualizar(agendamento);
+    public AgendamentoDTO atualizar(@PathVariable Long id,
+                                    @RequestBody AgendamentoDTO agendamentoDTO) {
+
+        return agendamentoService.atualizar(id, agendamentoDTO);
     }
 
     @DeleteMapping("/{id}")

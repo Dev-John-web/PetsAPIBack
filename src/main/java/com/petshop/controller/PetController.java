@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.petshop.entities.Pet;
+import com.petshop.dto.PetDTO;
 import com.petshop.service.PetService;
 
 @RestController
@@ -16,24 +16,25 @@ public class PetController {
     private PetService petService;
 
     @GetMapping
-    public List<Pet> listarTodos() {
+    public List<PetDTO> listarTodos() {
         return petService.listarTodos();
     }
 
     @GetMapping("/{id}")
-    public Pet buscarPorId(@PathVariable Long id) {
-        return petService.buscarPorId(id).orElse(null);
+    public PetDTO buscarPorId(@PathVariable Long id) {
+        return petService.buscarPorId(id);
     }
 
     @PostMapping
-    public Pet salvar(@RequestBody Pet pet) {
-        return petService.salvar(pet);
+    public PetDTO salvar(@RequestBody PetDTO petDTO) {
+        return petService.salvar(petDTO);
     }
 
     @PutMapping("/{id}")
-    public Pet atualizar(@PathVariable Long id, @RequestBody Pet pet) {
-        pet.setId(id);
-        return petService.atualizar(pet);
+    public PetDTO atualizar(@PathVariable Long id,
+                            @RequestBody PetDTO petDTO) {
+
+        return petService.atualizar(id, petDTO);
     }
 
     @DeleteMapping("/{id}")
