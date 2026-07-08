@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.petshop.dto.PetDTO;
 import com.petshop.entities.Cliente;
 import com.petshop.entities.Pet;
+import com.petshop.exception.ResourceNotFoundException;
 import com.petshop.repository.ClienteRepository;
 import com.petshop.repository.PetRepository;
 
@@ -77,7 +78,8 @@ public class PetService {
     // Buscar por ID
     public PetDTO buscarPorId(Long id) {
 
-        Pet pet = petRepository.findById(id).orElse(null);
+        Pet pet = petRepository.findById(id).orElseThrow(() ->
+        new ResourceNotFoundException("Pet não encontrado."));
 
         if (pet == null) {
             return null;

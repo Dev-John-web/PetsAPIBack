@@ -10,6 +10,7 @@ import com.petshop.dto.AgendamentoDTO;
 import com.petshop.entities.Agendamento;
 import com.petshop.entities.Pet;
 import com.petshop.entities.Servico;
+import com.petshop.exception.ResourceNotFoundException;
 import com.petshop.repository.AgendamentoRepository;
 import com.petshop.repository.PetRepository;
 import com.petshop.repository.ServicoRepository;
@@ -85,7 +86,8 @@ public class AgendamentoService {
     // Buscar por ID
     public AgendamentoDTO buscarPorId(Long id) {
 
-        Agendamento agendamento = agendamentoRepository.findById(id).orElse(null);
+        Agendamento agendamento = agendamentoRepository.findById(id).orElseThrow(() ->
+        new ResourceNotFoundException("Agendamento não encontrado."));
 
         if (agendamento == null) {
             return null;

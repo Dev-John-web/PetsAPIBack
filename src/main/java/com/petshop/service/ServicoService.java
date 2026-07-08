@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.petshop.dto.ServicoDTO;
 import com.petshop.entities.Servico;
+import com.petshop.exception.ResourceNotFoundException;
 import com.petshop.repository.ServicoRepository;
 
 @Service
@@ -54,7 +55,8 @@ public class ServicoService {
     // Buscar por ID
     public ServicoDTO buscarPorId(Long id) {
 
-        Servico servico = servicoRepository.findById(id).orElse(null);
+        Servico servico = servicoRepository.findById(id).orElseThrow(() ->
+        new ResourceNotFoundException("Serviço não encontrado."));
 
         if (servico == null) {
             return null;
